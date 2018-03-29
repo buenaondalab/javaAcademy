@@ -1,13 +1,14 @@
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class BottlesTest {
 
     @Test
-    public void testSong() {
+    public void testSong() throws IOException {
 
         final ByteArrayOutputStream stream = new ByteArrayOutputStream();
         Bottles.writeLyrics(
@@ -15,7 +16,9 @@ public class BottlesTest {
                         stream));
 
         final String actual = new String(stream.toByteArray());
-        Assert.assertNotNull(actual);
 
+        final String expected = new String(Files.readAllBytes(Paths.get("src/main/resources/goldenMasterTest.txt")));
+
+        Assert.assertEquals(expected, actual);
     }
 }
